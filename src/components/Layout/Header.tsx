@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import buyMilkLogo from "../../assets/images/buyMilkLogo.png";
 import classes from './Header.module.css'
@@ -12,11 +11,6 @@ const Header = () => {
             <HeaderCartButton price="0" currency="€" />
         </header>
     )
-}
-
-Header.propTypes = {
-    price: PropTypes.string,
-    currency: PropTypes.string
 }
 
 export default Header
