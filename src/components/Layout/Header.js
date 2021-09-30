@@ -1,21 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from '@mui/material'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import buyMilkLogo from "../../assets/images/buyMilkLogo.png";
 import classes from './Header.module.css'
+import HeaderCartButton from './HeaderCartButton';
 
 const Header = ({
-    price = "0",
-    currency = "€"
+    price,
+    currency
 }) => {
     return (
         <header className={classes.header}>
             <img src={buyMilkLogo} alt='logo' className={classes.logo} />
-            <Button variant="outlined" startIcon={<ShoppingCartIcon />}>
-                {price} {currency}
-            </Button>
+            <HeaderCartButton
+                price={price}
+                currency={currency}
+            />
         </header>
     )
 }
