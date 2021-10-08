@@ -39,11 +39,11 @@ function App() {
                       </Button>
                     </div> */}
                   </Grid>
-                  <Hidden xsDown>
+                  {/* <Hidden xsDown>
                     <Grid item sm={4} xs={12} className={classes.imageContainer}>
                       <img src={shoppingBagImage} alt='shoppingBag' className={classes.image} />
                     </Grid>
-                  </Hidden>
+                  </Hidden> */}
                 </Grid>
               </Paper>
             </Grid>
