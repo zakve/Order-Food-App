@@ -1,23 +1,37 @@
-import React from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, IconButton } from '@mui/material'
+import React, { useContext } from 'react'
+import { Button, Dialog, DialogActions, DialogContent, Badge, DialogTitle, List, ListItem, ListItemAvatar, Avatar, ListItemText, IconButton } from '@mui/material'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ClearIcon from '@mui/icons-material/Clear';
+
+import CartContext from '../../store/CartContext'
 interface HeaderCartButtonProps {
     price: string;
     currency: string;
 }
 
 const HeaderCartButton = ({ price = "0", currency = "€" }: HeaderCartButtonProps) => {
+    const cartCtx = useContext(CartContext)
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => console.log(cartCtx);
     const handleClose = () => setOpen(false);
+
+    const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
+        return curNumber + item.count
+    }, 0)
 
     return (
         <>
             <Button
                 onClick={handleOpen}
                 variant="outlined"
-                startIcon={<ShoppingCartIcon />}
+                startIcon={
+                    <Badge
+                        badgeContent={numberOfCartItems}
+                        color="secondary"
+                    >
+                        <ShoppingCartIcon />
+                    </Badge>
+                }
             >
                 {price} {currency}
             </Button>
