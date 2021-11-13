@@ -1,5 +1,5 @@
 import React from 'react'
-import { IItem, ICartContext } from '../common/types'
+import { IItem, ICartContext } from '../types'
 
 const defaultState = {
     items: [],

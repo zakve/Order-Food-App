@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import CartContext from './CartContext'
 import { cartReducer, defaultCartState, CartActionKind } from './reducers'
-import { IItem } from '../common/types'
+import { IItem } from '../types'
 
 type Props = {
     children: React.ReactNode

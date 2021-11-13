@@ -1,4 +1,4 @@
-import { IItem } from '../common/types'
+import { IItem } from '../types'
 
 interface IState {
     items: Array<IItem>,
