@@ -3,21 +3,16 @@ import { Button, Dialog, DialogActions, DialogContent, Badge, DialogTitle, List,
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ClearIcon from '@mui/icons-material/Clear';
 
-import CartContext from '../../store/CartContext'
 interface HeaderCartButtonProps {
-    price: string;
+    price: number;
     currency: string;
+    cartItems: number;
 }
 
-const HeaderCartButton = ({ price = "0", currency = "€" }: HeaderCartButtonProps) => {
-    const cartCtx = useContext(CartContext)
+const HeaderCartButton = ({ price = 0, currency = "€", cartItems = 0 }: HeaderCartButtonProps) => {
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => console.log(cartCtx);
+    const handleOpen = () => { };
     const handleClose = () => setOpen(false);
-
-    const numberOfCartItems = cartCtx.items.reduce((curNumber, item) => {
-        return curNumber + item.count
-    }, 0)
 
     return (
         <>
@@ -26,7 +21,7 @@ const HeaderCartButton = ({ price = "0", currency = "€" }: HeaderCartButtonPro
                 variant="outlined"
                 startIcon={
                     <Badge
-                        badgeContent={numberOfCartItems}
+                        badgeContent={cartItems}
                         color="secondary"
                     >
                         <ShoppingCartIcon />
