@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import { Container } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -10,7 +9,6 @@ import { grey } from '@mui/material/colors';
 import Header from './components/Layout/Header';
 import MealItem from "./components/Meals/MealItem";
 //import shoppingBagImage from "./assets/images/shoppingBag.png";
-import CartContext from './store/CartContext'
 
 const DUMMY_MEALS = [
   { id: "1", title: 'Fresh salad', price: 15, count: 1, image: 'https://images.unsplash.com/photo-1529059997568-3d847b1154f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80' },
@@ -20,10 +18,7 @@ const DUMMY_MEALS = [
 ];
 
 function App() {
-  const cartContext = useContext(CartContext)
   const classes = useStyles();
-  console.log(cartContext)
-  cartContext.addItem({ id: "kf", title: "s", price: 20, count: 2, image: "fkdsl" })
 
   return (
     <Container className={classes.main}>
@@ -60,7 +55,7 @@ function App() {
                       title={meal.title}
                       price={meal.price}
                       image={meal.image}
-                      onAddClick={() => cartContext.addItem({ id: "kf", title: "s", price: 20, count: 2, image: "fkdsl" })}
+                      onAddClick={() => { }}
                     />
                   </Paper>
                 </Grid>
