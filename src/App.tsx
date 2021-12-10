@@ -10,7 +10,6 @@ import { grey } from '@mui/material/colors';
 import Header from './components/Layout/Header';
 import MealItem from "./components/Meals/MealItem";
 //import shoppingBagImage from "./assets/images/shoppingBag.png";
-import CartProvider from './store/CartProvider';
 import CartContext from './store/CartContext'
 
 const DUMMY_MEALS = [
@@ -27,54 +26,52 @@ function App() {
   cartContext.addItem({ id: "kf", title: "s", price: 20, count: 2, image: "fkdsl" })
 
   return (
-    <CartProvider>
-      <Container className={classes.main}>
-        <Header />
-        <Grid container>
-          <Grid item sm={10} xs={12}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Paper elevation={0} className={classes.paper}>
-                  <Grid container>
-                    <Grid item sm={8} xs={12}>
-                      {/* <List list={list} onRemoveClick={removeFromListHandler} />
+    <Container className={classes.main}>
+      <Header />
+      <Grid container>
+        <Grid item sm={10} xs={12}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Paper elevation={0} className={classes.paper}>
+                <Grid container>
+                  <Grid item sm={8} xs={12}>
+                    {/* <List list={list} onRemoveClick={removeFromListHandler} />
                     <div className={classes.price}>
                       <p>Total: {totalPrice}</p>
                       <Button variant="contained" color="secondary">
                         ORDER NOW
                       </Button>
                     </div> */}
-                    </Grid>
-                    {/* <Hidden xsDown>
+                  </Grid>
+                  {/* <Hidden xsDown>
                     <Grid item sm={4} xs={12} className={classes.imageContainer}>
                       <img src={shoppingBagImage} alt='shoppingBag' className={classes.image} />
                     </Grid>
                   </Hidden> */}
-                  </Grid>
-                </Paper>
-              </Grid>
-              {
-                DUMMY_MEALS.map((meal, i) =>
-                  <Grid key={i} item md={3} sm={4} xs={6}>
-                    <Paper elevation={0}>
-                      <MealItem
-                        id={meal.id}
-                        title={meal.title}
-                        price={meal.price}
-                        image={meal.image}
-                        onAddClick={() => cartContext.addItem({ id: "kf", title: "s", price: 20, count: 2, image: "fkdsl" })}
-                      />
-                    </Paper>
-                  </Grid>
-                )}
+                </Grid>
+              </Paper>
             </Grid>
-          </Grid>
-          <Grid item sm={2} xs={12}>
-            <Paper elevation={0}><Typography>Past Orders</Typography></Paper>
+            {
+              DUMMY_MEALS.map((meal, i) =>
+                <Grid key={i} item md={3} sm={4} xs={6}>
+                  <Paper elevation={0}>
+                    <MealItem
+                      id={meal.id}
+                      title={meal.title}
+                      price={meal.price}
+                      image={meal.image}
+                      onAddClick={() => cartContext.addItem({ id: "kf", title: "s", price: 20, count: 2, image: "fkdsl" })}
+                    />
+                  </Paper>
+                </Grid>
+              )}
           </Grid>
         </Grid>
-      </Container>
-    </CartProvider>
+        <Grid item sm={2} xs={12}>
+          <Paper elevation={0}><Typography>Past Orders</Typography></Paper>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 
