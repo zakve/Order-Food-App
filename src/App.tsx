@@ -5,9 +5,12 @@ import Typography from '@mui/material/Typography';
 //import Hidden from '@mui/material/Hidden';
 import { makeStyles } from '@mui/styles';
 import { grey } from '@mui/material/colors';
+import { useDispatch } from 'react-redux'
 
 import Header from './components/Layout/Header';
 import MealItem from "./components/Meals/MealItem";
+import { ADD_ITEM } from './store/actionTypes';
+import { IItem } from './types';
 //import shoppingBagImage from "./assets/images/shoppingBag.png";
 
 const DUMMY_MEALS = [
@@ -19,6 +22,11 @@ const DUMMY_MEALS = [
 
 function App() {
   const classes = useStyles();
+  const dispatch = useDispatch()
+
+  const addItemHandler = (item: IItem) => {
+    dispatch({ type: ADD_ITEM, item })
+  }
 
   return (
     <Container className={classes.main}>
@@ -51,11 +59,8 @@ function App() {
                 <Grid key={i} item md={3} sm={4} xs={6}>
                   <Paper elevation={0}>
                     <MealItem
-                      id={meal.id}
-                      title={meal.title}
-                      price={meal.price}
-                      image={meal.image}
-                      onAddClick={() => { }}
+                      item={meal}
+                      onAddClick={addItemHandler}
                     />
                   </Paper>
                 </Grid>
