@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import { grey } from '@mui/material/colors';
 import { useDispatch } from 'react-redux'
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 import Header from './components/Layout/Header';
 import MealItem from "./components/Meals/MealItem";
@@ -19,24 +21,33 @@ function App() {
   const dispatch = useDispatch()
 
   const [meals, setMeals] = useState<IItem[]>([])
+  const [mealsLoading, setMealsLoading] = useState(false)
 
   useEffect(() => {
     const fetchMeals = async () => {
-      const response = await fetch('https://order-food-77183-default-rtdb.europe-west1.firebasedatabase.app/meals.json')
-      const responseData = await response.json()
+      try {
+        setMealsLoading(true)
+        const response = await fetch('https://order-food-77183-default-rtdb.europe-west1.firebasedatabase.app/meals.json')
+        const responseData = await response.json()
 
-      const loadedMeals: IItem[] = []
-      for (const key in responseData) {
-        loadedMeals.push({
-          id: key,
-          title: responseData[key].title,
-          price: responseData[key].price,
-          count: 1,
-          image: responseData[key].image
-        })
+        const loadedMeals: IItem[] = []
+        for (const key in responseData) {
+          loadedMeals.push({
+            id: key,
+            title: responseData[key].title,
+            price: responseData[key].price,
+            count: 1,
+            image: responseData[key].image
+          })
+        }
+
+        setMeals(loadedMeals)
+      } catch (error) {
+        console.log(error)
+        throw error
+      } finally {
+        setMealsLoading(false)
       }
-
-      setMeals(loadedMeals)
     }
 
     fetchMeals()
@@ -73,7 +84,13 @@ function App() {
               </Paper>
             </Grid>
             {
-              meals.map((meal, i) =>
+              mealsLoading &&
+              <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+              </Box>
+            }
+            {
+              !mealsLoading && meals.map((meal, i) =>
                 <Grid key={i} item md={3} sm={4} xs={6}>
                   <Paper elevation={0}>
                     <MealItem
