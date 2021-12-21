@@ -28,7 +28,7 @@ const HeaderCartButton = ({ price = 0, currency = "€", cartItems = 0 }: Header
                     </Badge>
                 }
             >
-                {price} {currency}
+                {price.toFixed(2)} {currency}
             </Button>
             <Dialog
                 open={open}

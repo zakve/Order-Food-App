@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Container } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -13,16 +14,33 @@ import { ADD_ITEM } from './store/actionTypes';
 import { IItem } from './types';
 //import shoppingBagImage from "./assets/images/shoppingBag.png";
 
-const DUMMY_MEALS = [
-  { id: "1", title: 'Fresh salad', price: 15, count: 1, image: 'https://images.unsplash.com/photo-1529059997568-3d847b1154f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80' },
-  { id: "2", title: 'Norweigan Bacon', price: 35, count: 1, image: 'https://images.unsplash.com/photo-1528607929212-2636ec44253e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80' },
-  { id: "3", title: 'Gouda', price: 20, count: 1, image: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1053&q=80' },
-  { id: "4", title: 'Chicken legs', price: 55, count: 2, image: 'https://images.unsplash.com/photo-1588767768106-1b20e51d9d68?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80' }
-];
-
 function App() {
   const classes = useStyles();
   const dispatch = useDispatch()
+
+  const [meals, setMeals] = useState<IItem[]>([])
+
+  useEffect(() => {
+    const fetchMeals = async () => {
+      const response = await fetch('https://order-food-77183-default-rtdb.europe-west1.firebasedatabase.app/meals.json')
+      const responseData = await response.json()
+
+      const loadedMeals: IItem[] = []
+      for (const key in responseData) {
+        loadedMeals.push({
+          id: key,
+          title: responseData[key].title,
+          price: responseData[key].price,
+          count: 1,
+          image: responseData[key].image
+        })
+      }
+
+      setMeals(loadedMeals)
+    }
+
+    fetchMeals()
+  }, [])
 
   const addItemHandler = (item: IItem) => {
     dispatch({ type: ADD_ITEM, item })
@@ -55,7 +73,7 @@ function App() {
               </Paper>
             </Grid>
             {
-              DUMMY_MEALS.map((meal, i) =>
+              meals.map((meal, i) =>
                 <Grid key={i} item md={3} sm={4} xs={6}>
                   <Paper elevation={0}>
                     <MealItem
