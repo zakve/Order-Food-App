@@ -9,6 +9,7 @@ import { grey } from '@mui/material/colors';
 import { useDispatch } from 'react-redux'
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 
 import Header from './components/Layout/Header';
 import MealItem from "./components/Meals/MealItem";
@@ -22,35 +23,37 @@ function App() {
 
   const [meals, setMeals] = useState<IItem[]>([])
   const [mealsLoading, setMealsLoading] = useState(false)
+  const [mealsError, setMealsError] = useState<any>()
 
   useEffect(() => {
     const fetchMeals = async () => {
-      try {
-        setMealsLoading(true)
-        const response = await fetch('https://order-food-77183-default-rtdb.europe-west1.firebasedatabase.app/meals.json')
-        const responseData = await response.json()
+      setMealsLoading(true)
+      const response = await fetch('https://order-food-77183-default-rtdb.europe-west1.firebasedatabase.app/meals.json')
 
-        const loadedMeals: IItem[] = []
-        for (const key in responseData) {
-          loadedMeals.push({
-            id: key,
-            title: responseData[key].title,
-            price: responseData[key].price,
-            count: 1,
-            image: responseData[key].image
-          })
-        }
-
-        setMeals(loadedMeals)
-      } catch (error) {
-        console.log(error)
-        throw error
-      } finally {
-        setMealsLoading(false)
+      if (!response.ok) {
+        throw new Error('Fetch meals error')
       }
+
+      const responseData = await response.json()
+
+      const loadedMeals: IItem[] = []
+      for (const key in responseData) {
+        loadedMeals.push({
+          id: key,
+          title: responseData[key].title,
+          price: responseData[key].price,
+          count: 1,
+          image: responseData[key].image
+        })
+      }
+
+      setMeals(loadedMeals)
     }
 
-    fetchMeals()
+    fetchMeals().catch((error: any) => {
+      console.error(error)
+      setMealsError(error.message)
+    }).finally(() => setMealsLoading(false))
   }, [])
 
   const addItemHandler = (item: IItem) => {
@@ -60,6 +63,10 @@ function App() {
   return (
     <Container className={classes.main}>
       <Header />
+      {
+        mealsError &&
+        <Alert severity="error">{mealsError}</Alert>
+      }
       <Grid container>
         <Grid item sm={10} xs={12}>
           <Grid container>
